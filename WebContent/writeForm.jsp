@@ -12,10 +12,10 @@
 	
 	<p>전화번호를 등록하려면 <br> 아래 항목을 기입하고 "등록"버튼을 클릭하세요</p>
 	
-	<form action="" method="">
-		이름(name): <input type="text" name="" values=""> <br>
-		핸드폰(hp): <input type="text" name="" values=""> <br>
-		회사(company): <input type="text" name="" values=""> <br>
+	<form action="./insert.jsp" method="get">
+		이름(name): <input type="text" name="name" values=""> <br>
+		핸드폰(hp): <input type="text" name="hp" values=""> <br>
+		회사(company): <input type="text" name="company" values=""> <br>
 		<button type="submit">전송</button>
 	</form>	
 </body>
