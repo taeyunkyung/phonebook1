@@ -204,4 +204,41 @@ public class PhoneDao {
 		this.close();
 		return pList;
 	}
+
+	// 한 사람의 데이터만 가져오기
+	public PersonVo getPerson(int personId) {
+		PersonVo vo = new PersonVo();
+		this.getConnection();
+
+		try {
+			String query = "";
+			query += "select  name, ";
+			query += "        hp, ";
+			query += "        company ";
+			query += " from person ";
+			query += " where person_id = ?";
+
+			pstmt = conn.prepareStatement(query);
+
+			pstmt.setInt(1, personId);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next() == true) {
+				String name = rs.getString("name");
+				String hp = rs.getString("hp");
+				String company = rs.getString("company");
+
+				vo.setName(name);
+				vo.setHp(hp);
+				vo.setCompany(company);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+
+		this.close();
+		return vo;
+	}
 }
