@@ -132,42 +132,11 @@ public class PhoneDao {
 
 	// 리스트 가져오기
 	public List<PersonVo> getPersonList() {
-		List<PersonVo> pList = new ArrayList<PersonVo>();
-		this.getConnection();
-
-		try {
-			String query = "";
-			query += "select  person_id, ";
-			query += "        name, ";
-			query += "        hp, ";
-			query += "        company ";
-			query += " from person ";
-			query += " order by person_id asc";
-
-			pstmt = conn.prepareStatement(query);
-
-			rs = pstmt.executeQuery();
-
-			while (rs.next() == true) {
-				int personId = rs.getInt("person_id");
-				String name = rs.getString("name");
-				String hp = rs.getString("hp");
-				String company = rs.getString("company");
-
-				PersonVo vo = new PersonVo(personId, name, hp, company);
-				pList.add(vo);
-			}
-
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		}
-
-		this.close();
-		return pList;
+		return getPersonList("");
 	}
 
 	// 검색
-	public List<PersonVo> personSearch(String keyword) {
+	public List<PersonVo> getPersonList(String keyword) {
 		List<PersonVo> pList = new ArrayList<PersonVo>();
 		this.getConnection();
 
@@ -178,12 +147,17 @@ public class PhoneDao {
 			query += "        hp, ";
 			query += "        company ";
 			query += " from person ";
-			query += " where (name||hp||company) like '%'||?||'%' ";
-			query += " order by person_id asc";
 
-			pstmt = conn.prepareStatement(query);
+			if (keyword != "" || keyword == null) {
+				query += " where (name||hp||company) like '%'||?||'%' ";
+				query += " order by person_id asc";
 
-			pstmt.setString(1, keyword);
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, keyword);
+			} else {
+				query += " order by person_id asc";
+				pstmt = conn.prepareStatement(query);
+			}
 
 			rs = pstmt.executeQuery();
 
